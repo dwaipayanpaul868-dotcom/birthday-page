@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        .blinking-heart {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7em;
+            color: #ff69b4;
+            text-shadow: 0 0 20px #ffb6d5, 0 0 40px #ff69b4;
+            animation: blinkHeart 1s steps(2, start) infinite;
+            z-index: 2000;
+        }
+
+        @keyframes blinkHeart {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d, #c44569, #f8b500, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 80px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            transform: scale(0);
+            animation: cardPop 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes cardPop {
+            to { transform: scale(1); }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .title {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color:#ff6b9d;
+            background-clip: text;
+            margin-bottom: 30px;
+            animation: titleBounce 2s ease-in-out infinite alternate;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes titleBounce {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .wish-section {
+            margin-bottom: 40px;
+        }
+
+        .dear-friend {
+            font-size: 1.3em;
+            color: #c44569;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s forwards;
+        }
+
+        .main-wish {
+            font-size: 1.2em;
+            color:#ff6b9d;
+            font-weight: bold;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2.5s forwards;
+            
+        }
+
+        .signature {
+            font-size: 1.1em;
+            color: #ff6b9d;
+            font-weight: bold;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .button {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transform: scale(0);
+            animation: buttonPop 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 3s forwards;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 107, 157, 0.3);
+        }
+
+        @keyframes buttonPop {
+            to { transform: scale(1); }
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 157, 0.5);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        /* Floating Elements */
+        .heart {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 2em;
+            opacity: 0;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff 0%, #ff6b9d 50%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnim 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        .confetti:nth-child(odd) {
+            background: #ff6b9d;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        .confetti:nth-child(even) {
+            background: #f8b500;
+            animation: confettiFall 3s linear infinite;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .balloon {
+            position: absolute;
+            font-size: 3em;
+            animation: balloonFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes balloonFloat {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .firecracker {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 30px #fff, 0 0 10px #ff6b9d;
+        }
+
+        .firecracker-trail {
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(to top, #fff, transparent);
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .firecracker-burst {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .firecracker-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px #fff, 0 0 5px #ff69b4;
+        }
+
+        @keyframes firecrackerLaunch {
+            0% {
+                transform: translateY(0px);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-300px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes burstExplosion {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes particleSpread {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background music -->
+
+    <audio id="bg-music" src="happy birthday..mp3" autoplay loop hidden></audio>
+    <div class="blinking-heart">💗</div>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Tooooo amar princesss ebarrrrr celebrate buttonn tayyy click korunnn !!!!</h1>
+            <div class="wish-section">
+                <p class="dear-friend" style="display:none">Happpyyyyyyy Birthdayyyy amar sini sonaa happy 20th birthdayyy......yaiiiiiii,</p>
+                <p class="main-wish" style="display:none">
+                    Ajker dinta khubbbb khubbbb khubbbbb enjoy kor 🌟...akdom bestest katuk ajker dintaaa...tor sob sobbb  wish jano puro hoy ,
+                </p>
+                <p class="main-wish" style="display:none">
+                    khubbb hasi khushi thak....tor motoi khubb mishtiii katuk ei bochor ta,
+                </p>
+                <p class="main-wish" style="display:none">
+                    plsss plsss amar bhulbhal kaj er jonno ektu kom mathaa gorom korisss..jai hok sobsomoy tor pashe pabi amay ...achioo...thakboo oo✨
+                </p>
+                <p class="main-wish" style="display:none">
+    Ar haaaaa haaaa sarajibon ami e jano thaki tor chokhee andd ami calll e achiii akhonnoo...onekkkkk kichuu bolar achee tokeyy..calll eo ektuu kichuu shuneyy nin plsss mam ,sob ekhane bolle hoyy!!.
+                </p>
+                <p class="main-wish" style="display:none">
+                    But arooo akbarr Happy Birthday amar  gorgeous , cuteee, cutestttt siniiii! 💕....I LOVE YOU Sooooo soooooo muchhhh.....ummmmaaaaaahhhhhhh
+                </p>
+                <p class="signature" style="display:none">Happiiesttttt Birthdayyy Myyyyyy dearrr loveeee! 🎂</p>
+            </div>
+            <button class="button" onclick="celebrate()">🎉 Celebrate! 🎉</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+    <div class="balloon" style="left: 10%; top: 20%; color: #ff6b9d;">🎈</div>
+    <div class="balloon" style="left: 80%; top: 30%; color: #f8b500; animation-delay: 1s;">🎈</div>
+    <div class="balloon" style="left: 60%; top: 15%; color: #c44569; animation-delay: 2s;">🎈</div>
+    <div class="balloon" style="left: 30%; top: 25%; color: #ff9ff3; animation-delay: 0.5s;">🎈</div>
+    <div class="balloon" style="left: 20%; top: 40%; color: #00d4aa; animation-delay: 1.2s;">🎈</div>
+    <div class="balloon" style="left: 70%; top: 10%; color: #ffa502; animation-delay: 2.5s;">🎈</div>
+    <div class="balloon" style="left: 50%; top: 35%; color: #3742fa; animation-delay: 1.7s;">🎈</div>
+    <div class="balloon" style="left: 40%; top: 5%; color: #ff4757; animation-delay: 2.8s;">🎈</div>
+    </div>
+
+    <script>
+    // Prevent celebration loop until music ends
+    let canCelebrate = true;
+
+        // Only play music when Celebrate button is clicked
+        function playMusicLoud() {
+            const audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.volume = 1.0; // Max volume
+                audio.currentTime = 0;
+                audio.play();
+            }
+        }
+        function stopMusic() {
+            const audio = document.getElementById('bg-music');
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            // Create multiple hearts at random positions
+            for (let i = 0; i < 6; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }
+        }
+
+        // Create sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+        // Create firecrackers
+        function createFirecracker() {
+            const colors = ['#ff6b9d', '#f8b500', '#c44569', '#ff9ff3', '#00d4aa', '#ff4757', '#ffa502', '#3742fa'];
+            const firecracker = document.createElement('div');
+            firecracker.className = 'firecracker';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            firecracker.style.background = color;
+            firecracker.style.left = Math.random() * 100 + 'vw';
+            firecracker.style.bottom = '0px';
+            firecracker.style.width = (8 + Math.random() * 8) + 'px';
+            firecracker.style.height = firecracker.style.width;
+            firecracker.style.boxShadow = '0 0 30px #fff, 0 0 20px ' + color;
+            firecracker.style.animation = 'firecrackerLaunch ' + (1.5 + Math.random()) + 's ease-out forwards';
+
+            // Add trail
+            const trail = document.createElement('div');
+            trail.className = 'firecracker-trail';
+            firecracker.appendChild(trail);
+
+            document.body.appendChild(firecracker);
+
+            // Create burst effect after 1.2-1.7 seconds
+            setTimeout(() => {
+                createFirecrackerBurst(firecracker.style.left, color);
+                firecracker.remove();
+            }, 1200 + Math.random() * 500);
+        }
+
+        function createFirecrackerBurst(left, color) {
+            const burst = document.createElement('div');
+            burst.className = 'firecracker-burst';
+            burst.style.left = left;
+            burst.style.bottom = '300px';
+            burst.style.animation = 'burstExplosion 1s ease-out forwards';
+            
+            // Create multiple particles for the burst
+            const numParticles = 28 + Math.floor(Math.random() * 12); // 28-40 particles
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firecracker-particle';
+                particle.style.background = color;
+                particle.style.width = (4 + Math.random() * 6) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.boxShadow = '0 0 15px #fff, 0 0 10px ' + color;
+                const angle = (i * (360/numParticles)) * (Math.PI / 180);
+                const distance = 80 + Math.random() * 60;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                particle.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+                particle.style.animation = 'particleSpread ' + (1.5 + Math.random()) + 's cubic-bezier(0.4,0,0.2,1) forwards';
+                particle.style.animationDelay = Math.random() * 0.5 + 's';
+                burst.appendChild(particle);
+            }
+            
+            document.body.appendChild(burst);
+            
+            setTimeout(() => {
+                burst.remove();
+            }, 2500);
+        }
+
+        // Create confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+
+        // Show wishes one by one
+        function showWishesSequentially() {
+            const wishes = document.querySelectorAll('.wish-section p');
+            let i = 0;
+            function showNext() {
+                wishes.forEach(wish => wish.style.display = 'none');
+                if (i < wishes.length) {
+                    wishes[i].style.display = 'block';
+                    if (i === 0) {
+                        playMusicLoud(); // Start music with first wish
+                    }
+                    setTimeout(() => {
+                        wishes[i].style.display = 'none';
+                        i++;
+                        showNext();
+                    }, 8000);
+                } else {
+                    // Stop music after last wish
+                    stopMusic();
+                    endCelebrationEffects();
+                    // Show main birthday message again and wait for next click
+                    const mainTitle = document.querySelector('.title');
+                    if (mainTitle) {
+                        mainTitle.style.display = 'block';
+                    }
+                    window.celebrationActive = false;
+                }
+            }
+            showNext();
+        }
+
+        // Celebration function
+        function celebrate() {
+            if (window.celebrationActive || !canCelebrate) return; // Prevent multiple loops and block until music ends
+            window.celebrationActive = true;
+            canCelebrate = false;
+            playMusicLoud();
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'block';
+            createConfetti();
+
+            // Hide the main birthday sentence
+            const mainTitle = document.querySelector('.title');
+            if (mainTitle) mainTitle.style.display = 'none';
+
+            // Start continuous firecracker and heart intervals for celebration
+            window.celebrationFirecrackerInterval = setInterval(() => {
+                createFirecracker();
+            }, 200);
+            window.celebrationHeartInterval = setInterval(() => {
+                createHeart();
+            }, 1000);
+
+            // Show wishes one by one
+            showWishesSequentially();
+    }
+
+        // End celebration effects (called after last wish)
+        function endCelebrationEffects() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'none';
+            clearInterval(window.celebrationFirecrackerInterval);
+            clearInterval(window.celebrationHeartInterval);
+                canCelebrate = true; // Allow Celebrate button to work again
+        }
+
+        // Continuous animations
+        setInterval(createHeart, 2000);
+        setInterval(createSparkle, 1500);
+        
+        // Random firecracker launches
+        setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance every 3 seconds
+                createFirecracker();
+            }
+        }, 3000);
+
+        // Initial sparkle burst
+        setTimeout(() => {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createSparkle, i * 200);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
