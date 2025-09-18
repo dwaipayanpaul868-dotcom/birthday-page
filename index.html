@@ -521,9 +521,7 @@
                 wishes.forEach(wish => wish.style.display = 'none');
                 if (i < wishes.length) {
                     wishes[i].style.display = 'block';
-                    if (i === 0) {
-                        playMusicLoud(); // Start music with first wish
-                    }
+                    // ...existing code...
                     setTimeout(() => {
                         wishes[i].style.display = 'none';
                         i++;
